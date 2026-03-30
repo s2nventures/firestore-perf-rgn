@@ -1,0 +1,31 @@
+name: firestore_repro
+description: >
+  Minimal reproduction of Firestore Android SDK 26.0.2 performance regression.
+  Demonstrates snapshot listener stalling under concurrent load with large documents.
+
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firestore Android 26.0.2 (BoM 34.4.0) illustrates the issue
+  cloud_firestore: ^6.1.3
+  firebase_core: ^4.5.0
+  logging: ^1.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# downgrading to 26.0.0 fixes the issue
+#dependency_overrides:
+#  cloud_firestore: 6.1.2
+#  cloud_firestore_platform_interface: 7.0.6
+#  firebase_core: 4.4.0
+
+flutter:
+  uses-material-design: true

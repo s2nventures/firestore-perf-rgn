@@ -1,0 +1,14 @@
+#  https://taskfile.dev/
+
+version: '3'
+
+tasks:
+  indexes:download:
+    desc: Download Firestore Indexes
+    cmds:
+      - firebase -P {{.GOOGLE_CLOUD_PROJECT}} firestore:indexes > firestore.indexes.json
+
+  indexes:deploy:
+    desc: Deploy Firestore Indexes
+    cmds:
+      - firebase -P {{.GOOGLE_CLOUD_PROJECT}} deploy --only firestore:indexes
