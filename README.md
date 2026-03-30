@@ -103,6 +103,17 @@ The composite indexes in `firestore.indexes.json` are required for the `Filter.o
 - **Broken:** `cloud_firestore: 6.1.3` → BoM 34.4.0 → Firestore native 26.0.2
 - **Platform:** Android
 
+## Tooling
+
+This regression was identified and isolated with the help of **Claude Opus 4.6** (Anthropic) via the Windsurf IDE. Claude assisted with:
+
+- Diffing the 5.0.3 and 5.0.4 releases of our production app to identify candidate changes
+- Systematically reverting changes one at a time to isolate the root cause
+- Tracing the Flutter `cloud_firestore` version bump to the underlying native Android SDK BoM and changelog
+- Developing this minimal reproduction app and the automated canary writer
+
+All testing and verification was performed by the developer on physical hardware.
+
 ## Related
 
 The thread pool change in [#7376](https://github.com/firebase/firebase-android-sdk/issues/7376) is the most likely root cause. The `AsyncTask` thread pool was well-integrated with Android's threading model and Flutter's platform channel dispatch. The replacement self-managed thread pool may have different scheduling characteristics that cause thread starvation or priority inversion when:
