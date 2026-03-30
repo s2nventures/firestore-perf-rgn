@@ -6,6 +6,7 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:logging/logging.dart";
 
 // ---------------------------------------------------------------------------
@@ -683,6 +684,22 @@ class _ReproScreenState extends State<ReproScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Firestore 26.0.2\nPerformance Regression"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.copy),
+            tooltip: "Copy log to clipboard",
+            onPressed: _globalLog.isEmpty
+                ? null
+                : () {
+                    Clipboard.setData(
+                      ClipboardData(text: _globalLog.join("\n")),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Log copied to clipboard")),
+                    );
+                  },
+          ),
+        ],
       ),
       body: Column(
         children: [
